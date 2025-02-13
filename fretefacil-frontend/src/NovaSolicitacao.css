@@ -1,0 +1,50 @@
+.corpo { 
+    position: relative;
+    height: 100vh;
+ }
+.mapcontainer {
+    height: 100%;
+    width: 100%;
+}
+.boxdestination {
+    position: absolute;
+    top: 6vh;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255,255,255,0.9);
+    padding: 10px;
+    border-radius: 8px;
+    z-index: 999;
+    width: 90%;
+    max-width: 500px;
+}
+.boxorigem {
+    display: flex;
+    flex-direction: column;
+    width: 97%;
+    padding: 5px;
+    margin-top: 5px;
+}
+.boxdestino {
+    display: flex;
+    flex-direction: column;
+    width: 97%;
+    margin-top: 10px;
+    padding: 5px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+.boxsolicitacao {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255,255,255,0.9);
+    padding: 10px;
+    border-radius: 8px; 
+    z-index: 1000;
+    width: 90%;
+    max-width: 500px;
+}
