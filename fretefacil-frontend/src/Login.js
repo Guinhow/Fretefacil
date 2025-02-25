@@ -2,6 +2,7 @@ import React, { useState ,useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
+import SignUp from './SignUp';
 
 function Login() {
   const [username, setUsername] = useState('');
@@ -15,7 +16,7 @@ function Login() {
   
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:8000/api/token/', { username, password })
+    axios.post('http://192.168.0.240:8000/api/token/', { username, password })
       .then(response => {
         localStorage.setItem('access_token', response.data.access);
         localStorage.setItem('refresh_token', response.data.refresh);
@@ -24,6 +25,9 @@ function Login() {
       .catch(error => {
         console.error("Erro ao fazer login:", error);
       });
+  };
+  const handleSignup = () => {
+    navigate('/signup');
   };
 
   return (
@@ -57,7 +61,7 @@ function Login() {
           Login<span></span>
         </button>
 
-        <button type="button" className="login-button">
+        <button type="button" className="login-button" onClick={handleSignup}>
           Sign-up<span></span>
         </button>
       </div>

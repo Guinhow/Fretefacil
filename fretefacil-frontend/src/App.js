@@ -7,6 +7,7 @@ import Solicitacoes from './Solicitacoes';
 import NovaSolicitacao from './NovaSolicitacao';
 import PrivateRoute from './PrivateRoute';
 import ContactForm from './Contactform';
+import SignUp from './SignUp';
 
 
 function App() {
@@ -55,6 +56,7 @@ function App() {
         </div>
       <Routes>
         <Route path="/" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
         <Route element={<PrivateRoute />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/solicitacoes" element={<Solicitacoes />} />
