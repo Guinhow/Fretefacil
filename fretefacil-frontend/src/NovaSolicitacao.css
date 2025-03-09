@@ -1,6 +1,6 @@
 .corpo { 
     position: relative;
-    height: 100vh;
+    height: 100dvh;
  }
 .mapcontainer {
     height: 100%;
@@ -47,4 +47,18 @@
     z-index: 1000;
     width: 90%;
     max-width: 500px;
+}
+.boxvaldist {
+    display: flex;
+    gap: 10px;
+}
+
+.boxdistancia {
+    display: flex;
+    gap: 10px; 
+}
+  
+.boxdistancia input {
+    width: 70px;
+    padding: 5px;
 }

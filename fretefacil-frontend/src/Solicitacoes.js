@@ -19,9 +19,13 @@ function Solicitacoes() {
       <h2>Solicitações de Serviço</h2>
       <ul>
         {solicitacoes.map(s => (
-          <li key={s.id}>
-            {s.origem} para {s.destino} na data {s.data}
-          </li>
+            <li key={s.id}>
+              <h3>Solicitação de {s.cliente_nome}</h3>
+              <p>Origem: {s.origem}</p>
+              <p>Destino: {s.destino}</p>
+              <p>Distância: {s.distancia} km</p>
+              <p>Valor: R${s.valor}</p>
+            </li>
         ))}
       </ul>
     </div>
@@ -29,3 +33,4 @@ function Solicitacoes() {
 }
 
 export default Solicitacoes;
+

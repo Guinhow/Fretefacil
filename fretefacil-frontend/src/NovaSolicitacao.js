@@ -1,5 +1,3 @@
-
-
 import React, { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -35,6 +33,8 @@ const fetchAddressFromCoordinates = async (lat, lng) => {
     return '';
   }
 };
+
+
 // cliques no mapa para selecionar localização
 const MapSelector = ({ selectMode, onLocationSelected }) => {
   useMapEvents({
@@ -54,6 +54,7 @@ function NovaSolicitacao() {
   const [destino, setDestino] = useState('');
   const [markerOrigin, setMarkerOrigin] = useState(null);
   const [markerDestination, setMarkerDestination] = useState(null);
+  const [distancia, setDistancia] = useState(null);
   
   // posição atual do usuário 
   const [currentPosition, setCurrentPosition] = useState([ -22.925867, -43.011017 ]); //home
@@ -81,6 +82,18 @@ function NovaSolicitacao() {
       setMarkerDestination(latlng);
       setDestino(address);
     }
+    calcularDistancia(latlng, mode === 'origin' ? markerDestination : markerOrigin);
+  };
+
+  // Calcula a distância entre origem e destino
+  const calcularDistancia = (novaPosicao, outroPonto) => {
+    if (novaPosicao && outroPonto) {
+      const ponto1 = L.latLng(novaPosicao.lat, novaPosicao.lng);
+      const ponto2 = L.latLng(outroPonto.lat, outroPonto.lng);
+      const distanciaMetros = ponto1.distanceTo(ponto2); 
+      const distanciaKm = (distanciaMetros / 1000).toFixed(2); 
+      setDistancia(distanciaKm);
+    }
   };
 
   // ajuste da posição do marcador
@@ -95,25 +108,28 @@ function NovaSolicitacao() {
       setMarkerDestination(position);
       setDestino(address);
     }
+    calcularDistancia(position, mode === 'origin' ? markerDestination : markerOrigin);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     api.post('solicitacoes/', {
       origem,    
-      destino,   
+      destino,
+      distancia,   
       data,
       hora,
       descricao,
     })
     .then(response => {
+      alert('Solicitação criada com sucesso!');
       navigate('/solicitacoes');
     })
     .catch(error => {
-      console.error("Erro ao criar solicitação:", error.response.data);
+      console.error("Erro ao criar solicitação:", error.response?.data || error.message);
+      alert('Ocorreu um erro ao criar a solicitação.');
     });
   };
-
   return (
     <div className='corpo'>
       <MapContainer className='mapcontainer' center={currentPosition} zoom={13} >
@@ -170,6 +186,13 @@ function NovaSolicitacao() {
             Selecionar Destino
           </button>
         </div> */}
+        {distancia && (
+          <div className="boxdistancia">
+            <label><strong>Distância:</strong></label>
+            <input type="text" value={`${distancia} km`} readOnly />
+            <span><strong>Valor:</strong> R$ {(10 + parseFloat(distancia) * 1.5).toFixed(2)}</span>
+          </div>
+        )}
       </div>
       <div className='boxsolicitacao'>
         <h2>Nova Solicitação de Serviço</h2>

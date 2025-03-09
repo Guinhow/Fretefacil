@@ -8,6 +8,7 @@ import NovaSolicitacao from './NovaSolicitacao';
 import PrivateRoute from './PrivateRoute';
 import ContactForm from './Contactform';
 import SignUp from './SignUp';
+import Motorista from "./Motorista";
 
 
 function App() {
@@ -62,7 +63,8 @@ function App() {
           <Route path="/solicitacoes" element={<Solicitacoes />} />
           <Route path="/nova-solicitacao" element={<NovaSolicitacao />} />
           <Route path="/Contact" element={<ContactForm />} />
-        </Route>
+          <Route path="/motorista" element={<Motorista />} />
+          </Route>
       </Routes>
     </Router>
   );

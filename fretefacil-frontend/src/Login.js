@@ -13,19 +13,38 @@ function Login() {
     document.body.classList.add("login-page");
     return () => document.body.classList.remove("login-page");
   }, []);
-  
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('http://192.168.0.240:8000/api/token/', { username, password })
+    axios.post('http://192.168.1.10:8000/api/token/', { username, password })
       .then(response => {
         localStorage.setItem('access_token', response.data.access);
         localStorage.setItem('refresh_token', response.data.refresh);
-        navigate('/nova-solicitacao'); 
+        localStorage.setItem('user_type', response.data.user_type);
+        if (response.data.user_type === "motorista") {
+          navigate('/motorista'); 
+        } else {
+          navigate('/nova-solicitacao'); 
+        }
       })
       .catch(error => {
         console.error("Erro ao fazer login:", error);
       });
   };
+
+  
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   axios.post('http://192.168.0.237:8000/api/token/', { username, password })
+  //     .then(response => {
+  //       localStorage.setItem('access_token', response.data.access);
+  //       localStorage.setItem('refresh_token', response.data.refresh);
+  //       navigate('/nova-solicitacao'); 
+  //     })
+  //     .catch(error => {
+  //       console.error("Erro ao fazer login:", error);
+  //     });
+  // };
   const handleSignup = () => {
     navigate('/signup');
   };

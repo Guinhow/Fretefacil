@@ -20,15 +20,23 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
 class SolicitacaoServicoSerializer(serializers.ModelSerializer):
     cliente = serializers.PrimaryKeyRelatedField(queryset=CustomUser.objects.all(), required=False)
+    cliente_nome = serializers.CharField(source='cliente.username', read_only=True)
 
     class Meta:
         model = SolicitacaoServico
         fields = '__all__'
 
     def create(self, validated_data):
+            # Pegando a distância e valor do frontend
+        distancia = validated_data.get('distancia')
+        valor = validated_data.get('valor')
 
+            # Caso o valor não tenha sido passado, calculamos com base na distância
+        if not valor and distancia:
+            valor = round(10 + (float(distancia) * 1.5), 2)
 
-       return SolicitacaoServico.objects.create(**validated_data)    
+            # Criando a solicitação com o valor calculado
+        return SolicitacaoServico.objects.create(valor=valor, **validated_data)
 
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)

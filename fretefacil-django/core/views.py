@@ -1,11 +1,10 @@
 from django.shortcuts import render
 from rest_framework import ( viewsets , generics )
-from .models import SolicitacaoServico
-from .serializers import ( SolicitacaoServicoSerializer , UserSerializer )
-from rest_framework.permissions import IsAuthenticated
-from .models import CustomUser
-from .serializers import CustomUserSerializer
-from rest_framework.permissions import AllowAny
+from .models import SolicitacaoServico , CustomUser
+from .serializers import ( SolicitacaoServicoSerializer , UserSerializer , CustomUserSerializer )
+from rest_framework.permissions import IsAuthenticated , AllowAny
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 class RegisterUserView(generics.CreateAPIView):
     queryset = CustomUser.objects.all()
@@ -26,3 +25,12 @@ class SolicitacaoServicoViewSet(viewsets.ModelViewSet):
 
 class UserCreateAPIView(generics.CreateAPIView):
     serializer_class = UserSerializer
+
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        data['user_type'] = self.user.user_type 
+        return data
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer

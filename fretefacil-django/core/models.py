@@ -17,6 +17,8 @@ class SolicitacaoServico(models.Model):
     data = models.DateField()
     hora = models.TimeField()
     descricao = models.TextField(blank=True, null=True)
+    distancia = models.FloatField(null=True, blank=True)
+    valor = models.DecimalField(null=True, max_digits=10, decimal_places=2)  
     criado_em = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
